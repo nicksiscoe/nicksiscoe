@@ -18,7 +18,7 @@ function Experience({
   variant?: "sm" | "md" | "lg";
 }) {
   return (
-    <div className="experience-row">
+    <div className="experience-row" data-aos="fade-up">
       <a
         className={`${variant === "md" ? "btn" : "btn-small"} ${
           !experience.url ? "disabled" : ""

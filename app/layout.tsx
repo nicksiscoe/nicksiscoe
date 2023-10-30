@@ -17,7 +17,7 @@ type SiteMetadata = Metadata & {
 };
 
 const metadata: SiteMetadata = {
-  title: "Meet Nick Siscoe 🎉",
+  title: "Nick Siscoe 👋",
   description: "software engineer, designer, product manager, founder",
 };
 
@@ -37,23 +37,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Global site tag (gtag.js) - Google Analytics */}
-        <Script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=UA-133288444-1`}
-        />
-        <Script
-          id="gtag"
-          async
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'UA-133288444-1');
-            `,
-          }}
-        />
         <title>{metadata.title}</title>
         <meta charSet="utf-8" />
         <meta
@@ -67,20 +50,11 @@ export default function RootLayout({
         <meta name="twitter:description" content={metadata.description} />
         <meta name="twitter:image" content=" https://i.imgur.com/F8zr82l.png" />
         <meta name="twitter:card" content="summary_large_image" />
-        <link
-          rel="icon"
-          href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/male-technologist_1f468-200d-1f4bb.png"
-          type="image/x-icon"
-        />
+        <link rel="icon" href="/favicon.ico" sizes="any" type="image/x-icon" />
         <link
           href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
           rel="stylesheet"
         />
-        <link
-          href="https://unpkg.com/aos@2.3.1/dist/aos.css"
-          rel="stylesheet"
-        />
-        <Script src="https://unpkg.com/aos@2.3.1/dist/aos.js" />
         <link rel="stylesheet" href="https://use.typekit.net/qpo1usu.css" />
         {/* <script type="text/javascript" src="snowstorm.js"></script> */}
       </head>

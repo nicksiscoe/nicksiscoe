@@ -119,10 +119,9 @@ export default function Home() {
         <div className="cv">
           <div className="cv-header">
             <div className="front-header">
-              <h2>résumé</h2>
+              <h2>my work</h2>
               <p className="context">
-                Jobs, startups, projects, embarrassing past work, and everything
-                in between.
+                Jobs, startups, passion-projects, failures, and everything in between.
               </p>
             </div>
             {/* <a className="btn" href="#">Download</a> */}
@@ -517,7 +516,7 @@ export default function Home() {
       <div className="technical-content">
         <div className="technical-description">
           <div className="github-frame">
-            <h3>Always building...</h3>
+            <h3>always building...</h3>
             <br />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
