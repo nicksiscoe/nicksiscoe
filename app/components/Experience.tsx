@@ -3,7 +3,7 @@ import Image from "next/image";
 export interface Experience {
   img?: string;
   title: string;
-  company: string;
+  company?: string;
   location: string;
   url?: string;
   timeframe: string;
@@ -30,7 +30,7 @@ function Experience({
           src={experience.img || "/img/logos/placeholder.png"}
           width={variant === "md" ? 25 : 16}
           height={variant === "md" ? 25 : 16}
-          alt={experience.company}
+          alt={experience.company || experience.title}
         />
       </a>
       <div className="row-content">
@@ -44,7 +44,8 @@ function Experience({
             ) : (
               <p className="position">
                 <strong>
-                  {experience.title} @ {experience.company}
+                  {experience.title}
+                  {experience.company ? ` @ ${experience.company}` : ""}
                 </strong>
               </p>
             )}

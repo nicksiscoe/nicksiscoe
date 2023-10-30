@@ -46,7 +46,7 @@ export default function Home() {
           <h1>Nick Siscoe</h1>
           <div className="tags">
             <div className="tag">📍 Kansas City</div>
-            <div className="tag">💾 24 y/o</div>
+            <div className="tag">💾 25 y/o</div>
             <div className="tag">🎓 Cornhusker</div>
             <div className="tag">🎸 Guitarist</div>
             <div className="tag">🏟️ Working on something new</div>
@@ -174,7 +174,7 @@ export default function Home() {
               url: "https://www.beondeck.com/founders",
               timeframe: "Spring 2022",
               description:
-                "Getting inspired by (and attempting to inspire) fellow founders!",
+                "Selected to join the early-stage accelerator - Collaborated with other founders building their next startup",
             }}
           />
           <Experience
@@ -492,7 +492,6 @@ export default function Home() {
             experience={{
               img: "/img/logos/fam.png",
               title: "Crazy Joe's Fireworks & Sneads BBQ Websites",
-              company: "Family Businesses",
               location: "Belton, MO",
               timeframe: "Summer 2016",
               description:
@@ -1073,7 +1072,6 @@ export default function Home() {
       </div>
       <div className="testimonials">
         <div className="wf-container">
-          <br />
           <div
             className="wf-box testimonial testimonial-image"
             style={{ backgroundImage: "url(/img/portfolio/unlwebsite.png)" }}

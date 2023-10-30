@@ -87,7 +87,6 @@ export default function RootLayout({
       <body className={inter.className}>
         {children}
         <Script src="https://platform.twitter.com/widgets.js" charSet="utf-8" />
-        <Script type="text/javascript" src="./waterfall.js" />
       </body>
     </html>
   );
