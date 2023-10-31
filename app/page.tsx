@@ -121,7 +121,8 @@ export default function Home() {
             <div className="front-header">
               <h2>my work</h2>
               <p className="context">
-                Jobs, startups, passion-projects, failures, and everything in between.
+                Jobs, startups, passion-projects, failures, and everything in
+                between.
               </p>
             </div>
             {/* <a className="btn" href="#">Download</a> */}
@@ -317,6 +318,7 @@ export default function Home() {
           />
           <Experience
             experience={{
+              url: "https://mirror.xyz/0x8dce5a7d1454Fa9fE0FA1ADE8Bb41308fB717ec8/RLXIZoSyW9F_uqWr_0KtcfklQg4gtCxQsaP3DnVkCA0",
               img: "/img/logos/heyday.png",
               title: "Co-founder",
               company: "Heyday",
