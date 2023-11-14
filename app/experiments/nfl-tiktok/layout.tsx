@@ -2,7 +2,6 @@
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.scss";
 import Script from "next/script";
 import AOS from "aos";
 

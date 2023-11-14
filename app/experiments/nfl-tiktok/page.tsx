@@ -73,7 +73,7 @@ export default function Experiments() {
                 loop
                 key={url}
                 src={url}
-                style={{ width: "100%", maxWidth: "500px" }}
+                style={{ width: "100%" }}
               />
             ))}
             <p>{video.caption}</p>
