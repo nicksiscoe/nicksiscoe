@@ -13,7 +13,7 @@ export async function GET() {
       articles.map(async (article: any) => {
         const res = await fetch(article.links.api.news.href);
         const response = await res.json();
-        console.log(response);
+        // console.log(response);
         return {
           caption: article.headline,
           urls: response.videos?.map(

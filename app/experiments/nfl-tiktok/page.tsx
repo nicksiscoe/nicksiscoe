@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import styles from "./page.module.scss";
 
 interface Video {
   caption: string;
@@ -8,7 +9,42 @@ interface Video {
 }
 
 export default function Experiments() {
+  const [begin, setBegin] = useState(false);
+
   const [videos, setVideos] = useState<Video[]>([]);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  // If scrollRef has stopped scrolling, play video that is in view
+  useEffect(() => {
+    if (!begin) return;
+
+    let timeout: NodeJS.Timeout;
+    const scroller = scrollRef.current;
+    const handleScroll = () => {
+      if (timeout) clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        const videos = Array.from(
+          scrollRef.current?.querySelectorAll("video") || []
+        );
+        const videoInView = videos.find((video) => {
+          const rect = video.getBoundingClientRect(),
+            top = rect.top,
+            bottom = rect.bottom;
+          return top >= 0 && bottom <= window.innerHeight;
+        });
+        if (videoInView) {
+          // pause every other video
+          videos.forEach((video) => {
+            if (video !== videoInView) video.pause();
+          });
+          videoInView.play();
+        }
+      }, 100);
+    };
+    handleScroll();
+    scroller?.addEventListener("scroll", handleScroll);
+    return () => scroller?.removeEventListener("scroll", handleScroll);
+  }, [begin, videos]);
 
   useEffect(() => {
     (async () => {
@@ -18,25 +54,32 @@ export default function Experiments() {
     })();
   }, []);
 
+  if (!begin) {
+    return (
+      <>
+        <button onClick={() => setBegin(true)}>begin</button>
+      </>
+    );
+  }
+
   return (
     <>
-      <h1>nfl tiktok</h1>
-
-      <hr />
-
-      {videos?.map((video) => (
-        <div key={video.caption}>
-          <h4>{video.caption}</h4>
-          {video.urls.map((url) => (
-            <video
-              key={url}
-              controls
-              src={url}
-              style={{ width: "100%", maxWidth: "500px" }}
-            />
-          ))}
-        </div>
-      ))}
+      <div className={styles.videos} ref={scrollRef}>
+        {videos?.map((video) => (
+          <div className={styles.video} key={video.caption}>
+            {video.urls.map((url) => (
+              <video
+                playsInline
+                loop
+                key={url}
+                src={url}
+                style={{ width: "100%", maxWidth: "500px" }}
+              />
+            ))}
+            <p>{video.caption}</p>
+          </div>
+        ))}
+      </div>
     </>
   );
 }
