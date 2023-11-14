@@ -57,7 +57,7 @@ export default function Experiments() {
   if (!begin) {
     return (
       <>
-        <button onClick={() => setBegin(true)}>begin</button>
+        <button onClick={() => setBegin(true)}>Enter →</button>
       </>
     );
   }
