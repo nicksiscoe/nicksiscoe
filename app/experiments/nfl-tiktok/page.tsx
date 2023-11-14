@@ -12,32 +12,9 @@ export default function Experiments() {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(
-        "http://site.api.espn.com/apis/site/v2/sports/football/nfl/news?limit=100"
-      );
-      const articleResponse = await res.json();
-      const articles = articleResponse.articles.filter(
-        (article: any) => !!article?.links?.api?.news?.href
-      );
-      const videos: Video[] = (
-        await Promise.all(
-          articles.map(async (article: any) => {
-            const res = await fetch(article.links.api.news.href);
-            const response = await res.json();
-            console.log(response);
-            return {
-              caption: article.headline,
-              urls: response.videos?.map(
-                (video: any) =>
-                  video?.links?.source?.HD?.href ||
-                  video?.links?.source?.SD?.href ||
-                  video?.links?.source?.href
-              ),
-            };
-          })
-        )
-      ).filter((u) => !!u.urls) as Video[];
-      setVideos(videos);
+      const res = await fetch("/api/experiments/nfl-tiktok");
+      const response = await res.json();
+      setVideos(response);
     })();
   }, []);
 
