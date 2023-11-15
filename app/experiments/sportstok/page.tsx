@@ -8,7 +8,7 @@ interface Video {
   urls: string[];
 }
 
-export default function Experiments() {
+export default function SportsTok() {
   const [begin, setBegin] = useState(false);
 
   const [videos, setVideos] = useState<Video[]>([]);
@@ -48,7 +48,7 @@ export default function Experiments() {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch("/api/experiments/nfl-tiktok");
+      const res = await fetch("/api/experiments/sportstok");
       const response = await res.json();
       setVideos(response);
     })();
@@ -57,7 +57,7 @@ export default function Experiments() {
   if (!begin) {
     return (
       <>
-        <button onClick={() => setBegin(true)}>Enter →</button>
+        <button onClick={() => setBegin(true)}>Enter SportsTok →</button>
       </>
     );
   }

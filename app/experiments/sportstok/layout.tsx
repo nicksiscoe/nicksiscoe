@@ -1,14 +1,7 @@
 "use client";
 
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import Script from "next/script";
-import AOS from "aos";
-
-import "aos/dist/aos.css";
-import { useEffect } from "react";
-
-const inter = Inter({ subsets: ["latin"] });
 
 type SiteMetadata = Metadata & {
   title: string;
@@ -16,23 +9,15 @@ type SiteMetadata = Metadata & {
 };
 
 const metadata: SiteMetadata = {
-  title: "nfl only tiktok",
-  description: "thats pretty much it",
+  title: "SportsTok",
+  description: "see whats happening in sports",
 };
 
-export default function RootLayout({
+export default function Layout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  useEffect(() => {
-    AOS.init({
-      easing: "ease-out-cubic",
-      once: true,
-      offset: 50,
-    });
-  }, []);
-
   return (
     <html lang="en">
       <head>
@@ -53,7 +38,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://use.typekit.net/qpo1usu.css" />
         {/* <script type="text/javascript" src="snowstorm.js"></script> */}
       </head>
-      <body className={inter.className}>
+      <body>
         {children}
         <Script src="https://platform.twitter.com/widgets.js" charSet="utf-8" />
       </body>

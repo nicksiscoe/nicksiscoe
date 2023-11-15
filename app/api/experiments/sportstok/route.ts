@@ -1,26 +1,9 @@
 import { NextResponse } from "next/server";
 
-function shuffle(array: any[]) {
-  let currentIndex = array.length,
-    randomIndex;
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  console.log(searchParams);
 
-  // While there remain elements to shuffle.
-  while (currentIndex > 0) {
-    // Pick a remaining element.
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
-  }
-
-  return array;
-}
-
-export async function GET() {
   const urls = [
     "http://site.api.espn.com/apis/site/v2/sports/football/nfl/news?limit=20",
     "http://site.api.espn.com/apis/site/v2/sports/football/college-football/news?limit=20",
