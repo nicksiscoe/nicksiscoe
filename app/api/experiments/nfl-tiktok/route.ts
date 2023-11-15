@@ -58,5 +58,10 @@ export async function GET() {
     )
   ).flat(1);
 
-  return NextResponse.json(shuffle(videos));
+  return NextResponse.json(
+    videos
+      .map((value) => ({ value, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value)
+  );
 }
