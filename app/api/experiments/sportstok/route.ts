@@ -1,6 +1,48 @@
 import { Category, Video } from "@/app/experiments/sportstok/page";
 import { NextResponse } from "next/server";
 
+export type Sport = "baseball" | "basketball" | "football" | "hockey";
+export type League =
+  | "mlb"
+  | "college-baseball"
+  | "mens-college-basketball"
+  | "nba"
+  | "wnba"
+  | "womens-college-basketball"
+  | "college-football"
+  | "nfl"
+  | "nhl";
+const sportESPNIds = {
+  baseball: "1",
+  basketball: "4",
+  football: "20",
+  hockey: "10",
+};
+const leagueESPNIds = {
+  mlb: "10",
+  "college-baseball": "14",
+  "mens-college-basketball": "41",
+  nba: "46",
+  wnba: "59",
+  "womens-college-basketball": "54",
+  "college-football": "23",
+  nfl: "28",
+  nhl: "90",
+};
+const getById = (obj: { [key: string]: string }, id: string) =>
+  Object.keys(obj).find((key) => obj[key] === id);
+const sports: { [key in Sport]: League[] } = {
+  baseball: ["mlb", "college-baseball"],
+  basketball: [
+    "mens-college-basketball",
+    "nba",
+    "wnba",
+    "womens-college-basketball",
+  ],
+  football: ["college-football", "nfl"],
+  hockey: ["nhl"],
+};
+
 interface Article {
   headline: string;
   categories: Category[];
@@ -15,15 +57,54 @@ interface Article {
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  console.log(searchParams);
+  const category = searchParams.has("category")
+    ? (JSON.parse(searchParams.get("category")!) as Category)
+    : null;
 
-  const urls = [
-    "http://site.api.espn.com/apis/site/v2/sports/football/nfl/news?limit=20",
-    "http://site.api.espn.com/apis/site/v2/sports/football/college-football/news?limit=20",
-    "http://site.api.espn.com/apis/site/v2/sports/basketball/nba/news?limit=20",
-    "http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/news?limit=20",
-    "http://site.api.espn.com/apis/site/v2/sports/baseball/mlb/news?limit=20",
-  ];
+  console.log(category);
+
+  let urls: string[] = [];
+  switch (category?.type) {
+    case "league": {
+      const league = getById(leagueESPNIds, category.leagueId.toString());
+      const sport = Object.keys(sports).find((sport) =>
+        sports[sport as Sport].includes(league as League)
+      );
+      if (sport && league) {
+        urls = [
+          `http://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/news?limit=20`,
+        ];
+      }
+      break;
+    }
+    // case "team": {
+    //   const sport = getById(sportESPNIds, category.sportId.toString());
+    //   const league =
+    //   if (sport && league) {
+    //     urls = [
+    //       `http://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/teams/${category.teamId}/news?limit=20`,
+    //     ];
+    //   }
+    //   break;
+    // }
+    default: {
+      urls = Object.keys(sports)
+        .map((sport) => {
+          const leagues = sports[sport as Sport];
+          return leagues.map(
+            (league) =>
+              `http://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/news?limit=20`
+          );
+        })
+        .flat(1);
+      break;
+    }
+  }
+
+  if (!urls.length) {
+    return NextResponse.error();
+  }
+
   const videos = (
     await Promise.all(
       urls.map(async (url) => {
