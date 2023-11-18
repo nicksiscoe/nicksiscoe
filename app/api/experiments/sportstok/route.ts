@@ -1,4 +1,17 @@
+import { Category, Video } from "@/app/experiments/sportstok/page";
 import { NextResponse } from "next/server";
+
+interface Article {
+  headline: string;
+  categories: Category[];
+  links: {
+    api: {
+      news: {
+        href: string;
+      };
+    };
+  };
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -21,22 +34,23 @@ export async function GET(request: Request) {
         );
         return (
           await Promise.all(
-            articles.map(async (article: any) => {
+            articles.map(async (article: Article) => {
               const res = await fetch(article.links.api.news.href);
               const response = await res.json();
-              // console.log(response);
-              return {
+              const video: Video = {
                 caption: article.headline,
+                categories: article.categories.filter(
+                  (category) => category.type !== "topic"
+                ),
                 urls: response.videos?.map(
                   (video: any) =>
-                    video?.links?.source?.HD?.href ||
-                    video?.links?.source?.SD?.href ||
-                    video?.links?.source?.href
+                    video?.links?.source?.SD?.href || video?.links?.source?.href
                 ),
               };
+              return video;
             })
           )
-        ).filter((u) => !!u.urls) as any[];
+        ).filter((u) => !!u.urls?.length) as any[];
       })
     )
   ).flat(1);
