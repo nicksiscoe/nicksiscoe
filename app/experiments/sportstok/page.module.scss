@@ -17,6 +17,7 @@
     margin: 1vh 0;
     width: 100%;
     scroll-snap-align: center;
+    scroll-snap-stop: always;
     display: flex;
     flex-direction: column;
     justify-content: center;
