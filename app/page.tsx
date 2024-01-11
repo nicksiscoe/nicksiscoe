@@ -130,7 +130,7 @@ export default function Home() {
           <Experience
             experience={{
               img: "/img/logos/fancave.png",
-              title: "Founder, Builder",
+              title: "Founder",
               company: "FanCave",
               location: "Remote",
               url: "https://fancave.live",
@@ -150,7 +150,7 @@ export default function Home() {
               url: "https://twitter.com/evanjconrad/status/1583538660489588737?s=20&t=0xR-W107GCvTKGSVE-VQ0A",
               timeframe: "Fall 2022",
               description:
-                'Development of an "IDE" for AI-prompt generation and deployment.',
+                'Development of an IDE for AI-prompt generation and deployment.',
             }}
           />
           <Experience
@@ -160,7 +160,7 @@ export default function Home() {
               company: "Sideline",
               location: "Remote",
               url: "https://sideline.so",
-              timeframe: "June - October 2022",
+              timeframe: "June - Octobger 2022",
               description:
                 "A SwiftUI Reddit app for game threads - peak ~500 WAU",
             }}
