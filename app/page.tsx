@@ -134,7 +134,7 @@ export default function Home() {
               company: "FanCave",
               location: "Remote",
               url: "https://fancave.live",
-              timeframe: "January 2023 - Present",
+              timeframe: "January - November 2023",
               description:
                 "Cross-platform mobile app to chat, react, and talk trash with fans and rivals on gameday.",
             }}
