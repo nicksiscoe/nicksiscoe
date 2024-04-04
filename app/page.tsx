@@ -130,6 +130,19 @@ export default function Home() {
           <Experience
             experience={{
               img: "/img/logos/fancave.png",
+              title: "Co-Founder, CTO",
+              company: "FanCave (YC W24)",
+              location: "San Francisco, CA",
+              url: "https://fancave.me",
+              timeframe: "January 2024 - Present",
+              description:
+                "Powering the free agency of college sports. Pledge money for recruits to come to your school.",
+            }}
+          />
+          <Divider year="2024" />
+          <Experience
+            experience={{
+              img: "/img/logos/fancave-chat.png",
               title: "Founder",
               company: "FanCave",
               location: "Remote",
@@ -150,7 +163,7 @@ export default function Home() {
               url: "https://twitter.com/evanjconrad/status/1583538660489588737?s=20&t=0xR-W107GCvTKGSVE-VQ0A",
               timeframe: "Fall 2022",
               description:
-                'Development of an IDE for AI-prompt generation and deployment.',
+                "Development of an IDE for AI-prompt generation and deployment.",
             }}
           />
           <Experience
