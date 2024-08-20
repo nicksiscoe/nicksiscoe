@@ -133,10 +133,10 @@ export default function Home() {
               title: "Co-Founder, CTO",
               company: "FanCave (YC W24)",
               location: "San Francisco, CA",
-              url: "https://fancave.me",
+              url: "https://fancave.team",
               timeframe: "January 2024 - Present",
               description:
-                "Powering the free agency of college sports. Pledge money for recruits to come to your school.",
+                "Bringing NFL-inspired roster management software to college athletics.",
             }}
           />
           <Divider year="2024" />
