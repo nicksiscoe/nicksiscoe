@@ -131,12 +131,12 @@ export default function Home() {
             experience={{
               img: "/img/logos/fancave.png",
               title: "Co-Founder, CTO",
-              company: "FanCave (YC W24)",
+              company: "Dropback (YC W24)",
               location: "San Francisco, CA",
-              url: "https://fancave.team",
+              url: "https://dropback.com",
               timeframe: "January 2024 - Present",
               description:
-                "Bringing NFL-inspired roster management software to college athletics.",
+                "Bringing NFL-inspired roster management, contract, and payroll software to college athletics.",
             }}
           />
           <Divider year="2024" />
