@@ -2,6 +2,7 @@ import Image from "next/image";
 // import styles from "./page.module.scss"
 import "./globals.scss";
 import Experience from "./components/Experience";
+import AgeTag from "./components/AgeTag";
 
 const Divider = ({ year }: { year: string }) => {
   return (
@@ -45,10 +46,9 @@ export default function Home() {
           <h1>Nick Siscoe</h1>
           <div className="tags">
             <div className="tag">📍 Kansas City</div>
-            <div className="tag">💾 25 y/o</div>
+            <AgeTag />
             <div className="tag">🎓 Cornhusker</div>
             <div className="tag">🎸 Guitarist</div>
-            <div className="tag">🏟️ Working on something new</div>
           </div>
           <div className="social-row">
             <a
