@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import SwipeableViews from "react-swipeable-views";
 
 import styles from "./page.module.scss";
 
@@ -74,10 +73,8 @@ export default function SportsTok() {
     const scroller = scrollRef.current;
     const handleScroll = () => {
       if (timeout) clearTimeout(timeout);
-      const lastStack = stacks[stacks.length - 1];
-      console.log(lastStack.name);
       const videos: HTMLVideoElement[] = Array.from(
-        scrollRef.current?.querySelectorAll(`video.${lastStack.name}`) || []
+        scrollRef.current?.querySelectorAll("video") || []
       );
       const videoInView = videos.find((video) => {
         const rect = video.getBoundingClientRect(),
@@ -100,30 +97,26 @@ export default function SportsTok() {
         // pause every other video
         videos.forEach((video) => {
           if (video !== videoInView) {
-            video.parentElement?.parentElement?.classList.remove(
-              styles.playing
-            );
+            video.closest(`.${styles.video}`)?.classList.remove(styles.playing);
           }
         });
-        videoInView.parentElement?.parentElement?.classList.add(styles.playing);
+        videoInView.closest(`.${styles.video}`)?.classList.add(styles.playing);
       }
     };
     handleScroll();
     scroller?.addEventListener("scroll", handleScroll);
     return () => scroller?.removeEventListener("scroll", handleScroll);
-  }, [begin, scrollRef.current, stacks.length]);
+  }, [begin, stacks.length]);
 
   // Get the progress of the current playing video and update the progress bar
   const [progress, setProgress] = useState(0);
   useEffect(() => {
     const interval = setInterval(() => {
-      // Get the video with the class of styles.playing
-      const video: HTMLVideoElement | null = document.querySelector(
-        `video.${styles.playing}`
-      );
-      if (video) {
-        const progress = (video.currentTime / video.duration) * 100;
-        setProgress(progress);
+      // The playing class lives on the video's container, not the <video> itself.
+      const video: HTMLVideoElement | null =
+        scrollRef.current?.querySelector(`.${styles.playing} video`) ?? null;
+      if (video && video.duration) {
+        setProgress((video.currentTime / video.duration) * 100);
       }
     }, 100);
     return () => clearInterval(interval);
@@ -175,58 +168,48 @@ export default function SportsTok() {
     );
   }
 
+  const activeStack = stacks[stacks.length - 1];
+
+  const goBack = () => {
+    setStacks((prev) => prev.slice(0, prev.length - 1));
+  };
+
   return (
     <>
-      <SwipeableViews
-        index={stacks.length - 1}
-        onChangeIndex={(index) => {
-          // If we swiped back from the last stack, remove it
-          if (index === stacks.length - 2) {
-            setStacks((stacks) => stacks.slice(0, stacks.length - 1));
-          }
-        }}
-        enableMouseEvents
-      >
-        {stacks.map((stack, index) => (
-          <div
-            key={stack.name}
-            className={styles.videos}
-            ref={index === stacks.length - 1 ? scrollRef : undefined}
-          >
-            {stack.videos?.map((video) => (
-              <div className={styles.video} key={video.caption}>
-                <div className={styles.categories}>
-                  {video.categories.map((category) => (
-                    <div
-                      key={category.id}
-                      onClick={() => onCategoryClick(category)}
-                    >
-                      <p>{category.description}</p>
-                    </div>
-                  ))}
+      {stacks.length > 1 && (
+        <button onClick={goBack}>
+          ← Back to {stacks[stacks.length - 2].name}
+        </button>
+      )}
+      <div key={activeStack.name} className={styles.videos} ref={scrollRef}>
+        {activeStack.videos?.map((video) => (
+          <div className={styles.video} key={video.caption}>
+            <div className={styles.categories}>
+              {video.categories.map((category) => (
+                <div key={category.id} onClick={() => onCategoryClick(category)}>
+                  <p>{category.description}</p>
                 </div>
-                {video.urls.map((url) => (
-                  <div key={url}>
-                    <video
-                      className={stack.name}
-                      autoPlay={false}
-                      playsInline
-                      loop
-                      key={url}
-                      src={url}
-                      style={{ width: "100%" }}
-                    />
-                    <progress id="progress" max="100" value={progress}>
-                      Progress
-                    </progress>
-                  </div>
-                ))}
-                <p>{video.caption}</p>
+              ))}
+            </div>
+            {video.urls.map((url) => (
+              <div key={url}>
+                <video
+                  autoPlay={false}
+                  playsInline
+                  loop
+                  key={url}
+                  src={url}
+                  style={{ width: "100%" }}
+                />
+                <progress max="100" value={progress}>
+                  Progress
+                </progress>
               </div>
             ))}
+            <p>{video.caption}</p>
           </div>
         ))}
-      </SwipeableViews>
+      </div>
     </>
   );
 }

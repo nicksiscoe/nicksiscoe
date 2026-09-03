@@ -12,12 +12,6 @@ export type League =
   | "college-football"
   | "nfl"
   | "nhl";
-const sportESPNIds = {
-  baseball: "1",
-  basketball: "4",
-  football: "20",
-  hockey: "10",
-};
 const leagueESPNIds = {
   mlb: "10",
   "college-baseball": "14",
@@ -43,14 +37,43 @@ const sports: { [key in Sport]: League[] } = {
   hockey: ["nhl"],
 };
 
-interface Article {
+interface ESPNNewsListResponse {
+  articles: ESPNRawArticle[];
+}
+
+interface ESPNRawArticle {
   headline: string;
   categories: Category[];
+  links?: {
+    api?: {
+      news?: {
+        href?: string;
+      };
+    };
+  };
+}
+
+type ESPNNewsArticle = ESPNRawArticle & {
   links: {
     api: {
       news: {
         href: string;
       };
+    };
+  };
+};
+
+interface ESPNNewsDetailResponse {
+  videos?: ESPNRawVideo[];
+}
+
+interface ESPNRawVideo {
+  links?: {
+    source?: {
+      SD?: {
+        href?: string;
+      };
+      href?: string;
     };
   };
 }
@@ -61,8 +84,6 @@ export async function GET(request: Request) {
     ? (JSON.parse(searchParams.get("category")!) as Category)
     : null;
 
-  console.log(category);
-
   let urls: string[] = [];
   switch (category?.type) {
     case "league": {
@@ -72,7 +93,7 @@ export async function GET(request: Request) {
       );
       if (sport && league) {
         urls = [
-          `http://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/news?limit=20`,
+          `https://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/news?limit=20`,
         ];
       }
       break;
@@ -93,7 +114,7 @@ export async function GET(request: Request) {
           const leagues = sports[sport as Sport];
           return leagues.map(
             (league) =>
-              `http://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/news?limit=20`
+              `https://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/news?limit=20`
           );
         })
         .flat(1);
@@ -109,29 +130,35 @@ export async function GET(request: Request) {
     await Promise.all(
       urls.map(async (url) => {
         const articleRes = await fetch(url);
-        const articleResponse = await articleRes.json();
+        const articleResponse =
+          (await articleRes.json()) as ESPNNewsListResponse;
         const articles = articleResponse.articles.filter(
-          (article: any) => !!article?.links?.api?.news?.href
+          (article): article is ESPNNewsArticle =>
+            !!article?.links?.api?.news?.href
         );
         return (
           await Promise.all(
-            articles.map(async (article: Article) => {
+            articles.map(async (article) => {
               const res = await fetch(article.links.api.news.href);
-              const response = await res.json();
+              const response = (await res.json()) as ESPNNewsDetailResponse;
               const video: Video = {
                 caption: article.headline,
                 categories: article.categories.filter(
                   (category) => category.type !== "topic"
                 ),
-                urls: response.videos?.map(
-                  (video: any) =>
-                    video?.links?.source?.SD?.href || video?.links?.source?.href
-                ),
+                urls:
+                  response.videos
+                    ?.map(
+                      (video) =>
+                        video?.links?.source?.SD?.href ||
+                        video?.links?.source?.href
+                    )
+                    .filter((href): href is string => !!href) ?? [],
               };
               return video;
             })
           )
-        ).filter((u) => !!u.urls?.length) as any[];
+        ).filter((u) => !!u.urls?.length);
       })
     )
   ).flat(1);

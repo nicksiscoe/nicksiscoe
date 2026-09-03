@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/alt-text */
 import Image from "next/image";
 // import styles from "./page.module.scss"
 import "./globals.scss";
@@ -535,7 +534,7 @@ export default function Home() {
             <br />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="http://ghchart.rshah.org/nicksiscoe"
+              src="https://ghchart.rshah.org/nicksiscoe"
               alt="Nick's Github Chart"
             />
           </div>
