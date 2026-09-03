@@ -138,6 +138,18 @@ export default function Home() {
                 "Bringing NFL-inspired roster management, contract, and payroll software to college athletics.",
             }}
           />
+          <Experience
+            experience={{
+              img: "/img/logos/ycombinator.svg",
+              title: "W24 Batch",
+              company: "Y Combinator",
+              location: "San Francisco, CA",
+              url: "https://www.ycombinator.com/companies/dropback",
+              timeframe: "Winter 2024",
+              description:
+                "Dropback was backed by Y Combinator as part of the Winter 2024 batch.",
+            }}
+          />
           <Divider year="2024" />
           <Experience
             experience={{
